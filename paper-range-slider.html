@@ -130,14 +130,14 @@ See README.md for further details.
                    on-up="_backDivUp" on-track="_sliderKnobMaxOnTrack"></div>
 
               <div class="divSpanWidth" style="pointer-events: none;">
-                <paper-single-range-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown"
+                <paper-single-range-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown" disable-knob-expand="[[disableKnobExpand]]"
                               on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]"
                               value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;">
                 </paper-single-range-slider>
               </div>
 
               <div class="divSpanWidth" style="pointer-events: none;">
-                <paper-single-range-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown"
+                <paper-single-range-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown" disable-knob-expand="[[disableKnobExpand]]"
                               on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]"
                               value="[[valueMin]]" style="width:100%;">
                 </paper-single-range-slider>
@@ -340,6 +340,13 @@ See README.md for further details.
                 type: Boolean,
                 value: false,
                 notify: true
+            },
+            /**
+             * Disable the expand of the knob while dragging.
+             */
+            disableKnobExpand: {
+                type:Boolean,
+                value:false
             },
         },
 
@@ -1124,7 +1131,7 @@ See README.md for further details.
         top: 0;
         margin-left: calc(-15px - var(--calculated-paper-single-range-slider-height)/2);
         width: calc(30px + var(--paper-single-range-slider-knob-width, --calculated-paper-single-range-slider-height));
-        height: calc(30px + var(--paper-single-range-slider-knob-height, --calculated-paper-single-range-slider-height));
+        height: calc(30px + var(--paper-single-range-slider-knob-width, --calculated-paper-single-range-slider-height));
       }
 
       .transiting > .slider-knob {
@@ -1161,6 +1168,7 @@ See README.md for further details.
         transition-timing-function: ease;
       }
 
+      .expand:not(.pin):not(.drag-scale) > .slider-knob > .slider-knob-inner,
       .expand:not(.pin) > .slider-knob > .slider-knob-inner {
         -webkit-transform: scale(1.5);
         transform: scale(1.5);
@@ -1412,6 +1420,10 @@ See README.md for further details.
               return [];
           }
         },
+        disableKnobExpand: {
+            type:Boolean,
+            value:false
+        },
       },
 
       observers: [
@@ -1477,7 +1489,7 @@ See README.md for further details.
       },
 
       _expandKnob: function() {
-        this._setExpand(true);
+        this._setExpand(true && !this.disableKnobExpand);
       },
 
       _resetKnob: function() {
