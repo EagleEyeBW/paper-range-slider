@@ -1045,7 +1045,8 @@ See README.md for further details.
         width: 100%;
         background-color: var(--paper-single-range-slider-bar-color, transparent);
         --paper-progress-container-color: var(--paper-single-range-slider-container-color, var(--paper-grey-400));
-        --paper-progress-height: var(--calculated-paper-single-range-slider-height);
+        --paper-progress-height: var(--paper-single-range-slider-bar-height);
+          @apply --paper-range-slider-slider-bar;
       }
 
       .slider-markers {
